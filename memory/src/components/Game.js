@@ -17,6 +17,7 @@ class Game extends Component {
           "assets/images/spiderman.jpg",
           "assets/images/thor.jpg",
           "assets/images/vision.jpg"],
+    guesses: [],
     highScore: 0
   };
 
@@ -24,10 +25,27 @@ class Game extends Component {
     array.sort(() => Math.random() - 0.5);
   }
 
+  repeatChecker = (arr, guess) =>{
+    let outcome = false;
+    for (let i = 0; i < arr.length; i++) {
+      if (guess === arr[i]){
+      outcome = true;}
+    }
+    return outcome
+  }
+
   imgClicked = event => {
-    console.log(this.shuffle(this.state.imgs))
-    this.setState({ score: this.state.score + 1 });
-  //  this.setState({ imgs: this.shuffle(this.state.imgs) });
+    console.log(this.state.guesses)
+    let guess = event.target.attributes.getNamedItem("src").value
+    if(this.repeatChecker(this.state.guesses, guess)){
+      this.setState({ score: 0, guesses: [] });
+    }else{
+      let newGuess =this.state.guesses
+      newGuess.push(guess)
+      this.setState({ score: this.state.score + 1, guesses: newGuess});
+    }
+    
+    this.shuffle(this.state.imgs);
   }
 
   render() {
