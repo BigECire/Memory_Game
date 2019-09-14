@@ -38,6 +38,9 @@ class Game extends Component {
     console.log(this.state.guesses)
     let guess = event.target.attributes.getNamedItem("src").value
     if(this.repeatChecker(this.state.guesses, guess)){
+      if (this.state.score > this.state.highScore) {
+        this.setState({ highScore: this.state.score });
+      }
       this.setState({ score: 0, guesses: [] });
     }else{
       let newGuess =this.state.guesses
